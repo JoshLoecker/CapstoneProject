@@ -1,6 +1,8 @@
 #!/bin/bash
 
 cores=$1
+mkdir -p "slurm/"
+touch "slurm/$cores.output"
 
 #SBATCH --job-name="snakemake.$cores"
 #SBATCH -p short
