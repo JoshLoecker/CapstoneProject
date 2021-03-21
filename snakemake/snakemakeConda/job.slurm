@@ -14,7 +14,7 @@ cores=$1
 echo "Cores $cores"
 
 source ~/.bashrc
-conda activate /home/joshua.loecker/scratch/joshl/conda-envs/snakemake
+conda activate /home/joshua.loecker/scratch/joshl/conda-env/snakemake
 
 temp_dir="temp_$cores"
 mkdir -p "$temp_dir"
