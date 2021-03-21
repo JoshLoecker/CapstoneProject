@@ -9,8 +9,8 @@ touch "slurm/$cores.output"
 #SBATCH -N 1
 #SBATCH -n $cores
 #SBATCH -t 00:10:00
-#SBATCH -o "slurm/$core.output"
-#SBATCH -e "slurm/$core.output"
+#SBATCH -o "./slurm/$core.output"
+#SBATCH -e "./slurm/$core.output"
 #SBATCH	--open-mode "append"
 
 echo "Cores $cores"
