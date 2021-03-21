@@ -1,0 +1,11 @@
+# results/bash
+results/bash/md5/bam/core.count.* linguist-detectable=false
+results/bash/md5/bam_sorted/core.count.* linguist-detectable=false
+results/bash/md5/sai/core.count.* linguist-detectable=false
+results/bash/md5/sam/core.count.* linguist-detectable=false
+results/bash/timeit/core.count.* linguist-detectable=false
+
+# results/snakemake
+results/snakemake/benchmarks/**/core.count.*/*.benchmark linguist-detectable=false
+results/snakemake/md5/**/core.count.* linguist-detectable=false
+results/snakemake/timeit/snakemake.core.* linguist-detectable=false

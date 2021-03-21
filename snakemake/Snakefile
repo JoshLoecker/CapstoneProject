@@ -1,0 +1,61 @@
+import os
+import glob
+from pprint import pprint
+configfile: "config.yaml"
+
+barcode_names = glob_wildcards(os.path.join(config["fastq_input"], "{barcode}.fastq.gz")).barcode
+rule all:
+    input:
+        expand(os.path.join(config["results"], "bam_sorted", "{barcode}.aligned.sam"), barcode=barcode_names)
+
+# index the genome file
+# This is done to ensure it is not indexed on every run of bwa_sai
+rule bwa_index:
+    input: config["genome_reference"]
+    output:
+        bwt = config["genome_reference"] + ".bwt",
+        pac = config["genome_reference"] + ".pac",
+        sa = config["genome_reference"] + ".sa",
+        amb = config["genome_reference"] + ".amb",
+        ann = config["genome_reference"] + ".ann"
+    shell: "bwa index {input}"
+
+# Align fastq files to reference genome
+rule bwa_sai:
+    input:
+        os.path.join(config["fastq_input"], "{barcode}.fastq.gz"),
+        rules.bwa_index.output.bwt,
+        rules.bwa_index.output.pac,
+        rules.bwa_index.output.sa,
+        rules.bwa_index.output.amb,
+        rules.bwa_index.output.ann
+    output:
+        sai = os.path.join(config["results"], "sai", "{barcode}.aligned.sai")
+    benchmark: "benchmarks/bwa_sai/{barcode}.benchmark"
+    shell:
+        r"""
+        bwa aln {config[genome_reference]} {input} > {output}
+        """
+
+# convert sai files to sam files
+rule sai_to_sam:
+    input:
+        bwa_output = rules.bwa_sai.output,
+        fastq_file = os.path.join(config["fastq_input"], "{barcode}.fastq.gz")
+    output: os.path.join(config["results"], "sam", "{barcode}.aligned.sam")
+    benchmark: "benchmarks/sai_to_sam/{barcode}.benchmark"
+    shell: "bwa samse {config[genome_reference]} {input.bwa_output} {input.fastq_file} > {output}"
+
+# convert sam files to bam files
+rule sam_to_bam:
+    input: rules.sai_to_sam.output
+    output: os.path.join(config["results"], "bam", "{barcode}.aligned.bam")
+    benchmark: "benchmarks/sam_to_bam/{barcode}.benchmark"
+    shell: "samtools view -S -b {input} > {output}"
+
+# sort bam files
+rule sorted_bam:
+    input: rules.sam_to_bam.output
+    output: os.path.join(config["results"], "bam_sorted", "{barcode}.aligned.sam")
+    benchmark: "benchmarks/sorted_bam/{barcode}.benchmark"
+    shell: "samtools sort {input} -o {output}"

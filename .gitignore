@@ -1,0 +1,15 @@
+/data/
+.DS_Store
+.idea
+/temp_results
+/benchmarks
+/.snakemake
+/snakemake/.snakemake
+/snakemake/snakemakeConda/.snakemake/
+/snakemake/snakemakeConda/temp_results/
+/testing_data/genome/zymogen_alignment.fasta.amb
+/testing_data/genome/zymogen_alignment.fasta.ann
+/testing_data/genome/zymogen_alignment.fasta.bwt
+/testing_data/genome/zymogen_alignment.fasta.pac
+/testing_data/genome/zymogen_alignment.fasta.sa
+/bash/temp_results/
