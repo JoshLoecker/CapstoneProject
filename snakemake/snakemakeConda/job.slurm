@@ -1,7 +1,6 @@
 #!/bin/bash
 
 cores=$1
-mkdir -p "slurm/"
 
 #SBATCH --job-name="snakemake.$cores"
 #SBATCH -p short
@@ -15,7 +14,7 @@ mkdir -p "slurm/"
 echo "Cores $cores"
 
 source ~/.bashrc
-conda activate ~/scratch/joshl/conda-envs/snakemake
+conda activate /home/joshua.loecker/scratch/joshl/conda-envs/snakemake
 
 temp_dir="temp_$cores"
 mkdir -p "$temp_dir"
@@ -32,4 +31,3 @@ total_time=$((end-start))
 echo "$total_time" > "../results/timeit/run_one/snakemake.time.core.$cores"
 
 cd ../
-rm -rf "$temp_dir"
