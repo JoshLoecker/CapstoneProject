@@ -11,23 +11,22 @@ cores=$1
 #SBATCH -e "slurm/$core.output"
 #SBATCH	--open-mode "append"
 
-
-
-module load guppy-cpu
-
-# Source our bashrc so conda can be used
 source ~/.bashrc
-conda activate /project/brookings_minion/conda-envs/mapt_pipeline
-module load guppy-cpu
+conda activate ~/scratch/joshl/conda-envs/snakemake
 
-cd $PIPELINE_DIR
+temp_dir="temp_$cores"
+mkdir -p "$temp_dir"
 
-snakemake -j 1 --unlock
-start=$(date)
-snakemake -j all --use-singularity --rerun-incomplete
-end=$(date)
+cp Snakefile "$temp_dir"
+cp config.yaml "$temp_dir"
 
-printf "Start - %s\n" "$start"
-printf "End - %s\n" "$end"
+cd "$temp_dir" || exit 1
 
-printf "END OF CPU SLURM\n"
+start=$(date +%s)
+snakemake -j "$cores" --use-conda
+end=$(date +%s)
+total_time=$((end-start))
+echo "$total_time" > "../results/timeit/run_one/snakemake.time.core.$cores"
+
+cd ../
+rm -rf "$temp_dir"
