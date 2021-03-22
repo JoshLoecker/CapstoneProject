@@ -1,5 +1,7 @@
 #!/bin/bash
 
+rm -rf .snakemake
+
 run_one="results/timeit/run_one"
 run_two="results/timeit/run_two"
 
@@ -7,7 +9,7 @@ mkdir -p "$run_one"
 mkdir -p "$run_two"
 
 # run one
-for core in {06..12}; do
+for core in {01..12}; do
     printf "Run 1 - %02d core started" "$core"
 
     start=$(date +%s)
