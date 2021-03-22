@@ -1,3 +1,3 @@
-fastq_input: "../testing_data"
-results: "../temp_results"
-genome_reference: "../testing_data/genome/zymogen_alignment.fasta"
+fastq_input: "../../data/input"
+results: "temp_results"
+genome_reference: "../../testing_data/genome/zymogen_alignment.fasta"

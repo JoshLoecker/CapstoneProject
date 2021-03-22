@@ -13,3 +13,6 @@
 /testing_data/genome/zymogen_alignment.fasta.pac
 /testing_data/genome/zymogen_alignment.fasta.sa
 /bash/temp_results/
+/snakemake/snakemakeTraditional/temp_results/
+/snakemake/snakemakeTraditional/benchmarks/
+/snakemake/snakemakeTraditional/.snakemake/
