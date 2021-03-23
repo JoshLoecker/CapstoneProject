@@ -1,7 +1,7 @@
 # This is an adaptation of benchmark_alignment.sh to allow for multithreading
 
 
-core_count=5
+core_count=2
 (
 for file in "../data/input/"*; do
 
@@ -10,7 +10,7 @@ for file in "../data/input/"*; do
     fi
     ((i++))
     start=$(date +%s)
-    bash "./run_alignment.sh" "$file" &
+    bash "./run_alignment.sh" "$file"
     end=$(date +%s)
     total_time=$((end-start))
 
